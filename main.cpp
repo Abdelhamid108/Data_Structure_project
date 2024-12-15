@@ -1,16 +1,18 @@
 #include <iostream>
 #include <limits>
-#include "BooksManage.cpp"
+#include "BooksManage.cpp"  // Make sure the header file is included, not cpp
 using namespace std;
 
-int main()
-{
+int main() {
     int choose;  // To store the user's choice
     char k;      // To store the user's response for repeating operations
     book_manage obj; // Object of the book_manage class
 
     do {
         // Display the menu options
+        cout << "\n*****************************************\n";
+        cout << "            Book Management Menu         \n";
+        cout << "*****************************************\n";
         cout << "1. Insert book\n";
         cout << "2. Delete book\n";
         cout << "3. Sort books\n";
@@ -19,20 +21,9 @@ int main()
         cout << "6. Search for a book\n";
         cout << "7. Get the length of the book list\n";
         cout << "8. Update information for a certain book\n";
-        cout << "Enter your choice (1-8): ";
 
         // Input validation for the user's choice (1-8)
-        while (true) {
-            cin >> choose;
-            if (cin.fail() || choose < 1 || choose > 8) {
-                cin.clear(); // Clear the error state of cin
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
-                cout << "Invalid choice. Please enter a number between 1 and 8.\n";
-                cout << "Enter your choice (1-8): "; // Prompt again
-            } else {
-                break; // Valid input, break out of the loop
-            }
-        }
+        choose = getValidatedInput(1, 8, "Enter your choice (1-8): ");
 
         // Perform the operation based on the user's choice
         switch (choose) {
@@ -61,12 +52,12 @@ int main()
             obj.updateBook();
             break;
         default:
-            cout << "Unexpected error.\n"; // This case will never happen due to the earlier validation
+            cout << "Unexpected error.\n"; // This will never happen due to the input validation
             break;
         }
 
         // Ask the user if they want to perform another operation
-        cout << "Do you want another operation? (y/n): ";
+        cout << "\nDo you want another operation? (y/n): ";
 
         // Input validation for repeat question ('y' or 'n')
         while (true) {
@@ -74,8 +65,7 @@ int main()
             if (cin.fail() || (k != 'y' && k != 'Y' && k != 'n' && k != 'N')) {
                 cin.clear(); // Clear the error state of cin
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
-                cout << "Invalid input. Please enter 'y' to continue or 'n' to exit.\n";
-                cout << "Do you want another operation? (y/n): "; // Prompt again
+                cout << "Invalid input. Please enter 'y' to continue or 'n' to exit : ";// Prompt again
             } else {
                 break; // Valid input, break out of the loop
             }
@@ -84,7 +74,9 @@ int main()
     } while (k == 'y' || k == 'Y'); // Repeat if the user enters 'y' or 'Y'
 
     // End of the program
-    cout << "Exiting the program. Goodbye!\n";
+    cout << "\n*****************************************\n";
+    cout << "        Exiting the program. Goodbye!    \n";
+    cout << "*****************************************\n";
 
     return 0;
 }
