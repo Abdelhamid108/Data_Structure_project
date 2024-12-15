@@ -33,6 +33,7 @@ class doubly_linkedlist
     // Methods for deleting nodes from the list
     void delete_first();  // Delete the first node in the list
     void delete_book(const string& name);   // Delete a specific book by its name
+    void delete_book(node* delPtr);      //Delete a book using a pointer to the node
     void delete_at_end();  // Delete the last node in the list
     void delete_at_pos(int n);  // Delete a node at a specific position (based on index)
 
@@ -42,7 +43,7 @@ class doubly_linkedlist
     bool isFound(const string& name);  // Check if a book with the given name is in the list
     void display_Forward();  // Display the list from head to tail
     void display_backward();  // Display the list from tail to head
-    void search_Book(const string& name);  // Search for a book by its name and display its data
+    node* search_Book(const string& name);  // Search for a book by its name and display its data
     void sort();  // Sort the list alphabetically by book name
 
     // Utility methods for managing the list

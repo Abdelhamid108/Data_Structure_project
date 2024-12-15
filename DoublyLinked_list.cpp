@@ -233,63 +233,58 @@ void doubly_linkedlist::delete_at_pos(int n)
     }
 }
 
+///@brief Delete a book by its title
+void doubly_linkedlist::delete_book(const string& title) {
+    node* delPtr = search_Book(title); // Search for the node with the given title
+    if (delPtr) {
+        delete_book(delPtr); // Call the function to delete using the node pointer
+    } else {
+        cout << "Book not found.\n";
+    }
+}
+
+///@brief Delete a book using a pointer to the node
+void doubly_linkedlist::delete_book(node* delPtr) {
+    if (delPtr) {  // Check if the node pointer is valid
+        if (delPtr == head) {  // If the node is the first one
+            delete_first();
+        } else if (delPtr == tail) {  // If the node is the last one
+            delete_at_end();
+        } else {  // If the node is in the middle
+            delPtr->prev->next = delPtr->next; // Update the next pointer of the previous node
+            delPtr->next->prev = delPtr->prev; // Update the previous pointer of the next node
+            delete delPtr; // Delete the node
+            length--; // Decrease the length of the list
+        }
+        cout << "Book deleted successfully.\n";
+    } else {
+        cout << "Error: Null pointer passed to delete_book.\n";
+    }
+}
 void doubly_linkedlist::update_book(const string& book_name) 
 {
     if (isEmpty()) {
         cout << "The list is empty. No book to update.\n";
         return;
     }
-    node* current = head;
-    while (current) {
-        if (current->data.name == book_name) {
+    node* current = search_Book(book_name);
+     
+        if (current) {
             cout << "Book found: \n";
             cout << "Name: " << current->data.name 
                  << ", Author: " << current->data.author 
                  << ", Category: " << current->data.category 
                  << ", Publish Year: " << current->data.p_year << "\n";
-
-            // Update the book's details
-            current->data.update_data();
+            current->data.update_data(); // Update the book's details
 
             cout << "Book updated successfully!\n";
-            return;
         }
         current = current->next;
-    }
+    
     cout << "Book with name \"" << book_name << "\" not found in the list.\n";
 }
 
-/// @brief Delete a specific book by name
-void doubly_linkedlist::delete_book(const string& name)
-{
-    if (isEmpty()) {  // Check if the list is empty
-        cout << "The list is empty.\n";  // Print message if the list is empty
-        return;
-    }
-    else {
-        node* delPtr = head;  // Create pointer to traverse the list
-        if (isFound(name)) {  // Check if the book is found
-            if (head->data.name == name) {  // If the book is the first in the list, delete the first node
-                delete_first();
-            }
-            else if (tail->data.name == name) {  // If the book is the last in the list, delete the last node
-                delete_at_end();
-            }
-            else {
-                while (delPtr->data.name != name) {  // Traverse the list to find the book
-                    delPtr = delPtr->next;
-                }
-                delPtr->prev->next = delPtr->next;  // Link previous node's next to the node after the current node
-                delPtr->next->prev = delPtr->prev;  // Link next node's previous to the node before the current node
-                delete delPtr;  // Delete the node
-            }
-            length--;  // Decrement length of the list
-        }
-        else {
-            cout << "This book is not in the list.\n";  // If book is not found, print message
-        }
-    }
-}
+
 
 /// @brief Display the list from head to tail
 void doubly_linkedlist::display_Forward()
@@ -301,13 +296,13 @@ void doubly_linkedlist::display_Forward()
     }
 
     node* current = head;  // Start from the head
-    cout << left << setw(10) << "No." 
-         << setw(30) << "Book Name" 
-         << setw(30) << "Author" 
-         << setw(30) << "Publication Year" 
-         << setw(30) << "Category" 
+   cout << left << setw(10) << "No."
+         << setw(30) << "Book Title"
+         << setw(30) << "Author"
+         << setw(30) << "Publication Year"
+         << setw(30) << "Category"
          << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << string(100, '-') << endl;  // خط فاصل
 
     int i = 1;  // For printing the number of the book
     while (current)
@@ -333,13 +328,13 @@ void doubly_linkedlist::display_backward()
         return;
     }
 
-    cout << left << setw(10) << "No." 
-         << setw(30) << "Book Name" 
-         << setw(30) << "Author" 
-         << setw(30) << "Publication Year" 
-         << setw(30) << "Category" 
+    cout << left << setw(10) << "No."
+         << setw(30) << "Book Title"
+         << setw(30) << "Author"
+         << setw(30) << "Publication Year"
+         << setw(30) << "Category"
          << endl;
-    cout << "---------------------------------------------------------------" << endl;
+    cout << string(100, '-') << endl;  // خط فاصل
 
     node* current = tail;  // Start from the tail
     int i = 1;  // For printing the number of the book
@@ -358,25 +353,25 @@ void doubly_linkedlist::display_backward()
 }
 
 /// @brief Search for a book by name and print its details
-void doubly_linkedlist::search_Book(const string& name)
+node* doubly_linkedlist::search_Book(const string& name)
 {
     node* temp = head;  // Start from the head
-    bool found = false;  // Flag to indicate whether the book is found
 
     while (temp)
     {
         if (temp->data.name == name)  // If the book's name matches
         {
-            temp->data.print();  // Print the book's data
-            found = true;  // Set found flag to true
-            break;  // Exit the loop after finding the book
+            return temp;  // Return pointer to the node
         }
         temp = temp->next;  // Move to the next node
     }
 
-    if (!found)
-        cout << "Book not found\n";  // Print message if book is not found
-}
+    if (!temp)
+       {
+           return nullptr;                       
+       }
+       
+        } ;  
 
 /// @brief Check if the list is empty
 bool doubly_linkedlist::isEmpty()

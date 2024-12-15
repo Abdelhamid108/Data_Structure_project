@@ -14,8 +14,8 @@ void book_manage::insert_book() {
     cout << "****************************************\n";
 
     int choice;
+    cout << "\nEnter the number of the operation you want (1-3): ";
     do {
-        cout << "\nEnter the number of the operation you want (1-3): ";
         cin >> choice;
 
         // Check if the input failed (not a valid number)
@@ -57,8 +57,8 @@ void book_manage::delete_book() {
     cout << "****************************************\n";
 
     int choice;
+    cout << "Enter the number of the operation you want (1-4): ";
     do {
-        cout << "Enter the number of the operation you want (1-4): ";
         cin >> choice;
 
         if (cin.fail()) {
@@ -101,7 +101,47 @@ void book_manage::search() {
     cout << "Enter the name of the book you want to search for: ";
     cin.ignore(); // Clear the input buffer
     getline(cin, title);
-    library.search_Book(title); // Search for the book by title
+    
+    node* search=library.search_Book(title);// Search for the book by title
+    if(search)
+    {
+        int x;
+        cout <<"Book is found \n\n";
+        cout<<"------------------------\n\n";
+        cout<<"1- Print the book information \n";
+        cout<<"2- Update the book information \n";
+        cout<<"3- Delete this book \n";
+        cout<<"4- Exit\n\n";
+        cout << "Enter the number of the operation you want (1-4): ";
+        do {
+        cin >> x;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a valid number (1-4).\n";
+        }
+        } while (x < 1 || x > 4);
+
+        switch (x)
+        {
+        case 1:
+            search->data.print();
+            break;
+        case 2:
+            search->data.update_data();
+            break;
+
+        case 3:
+            library.delete_book(search);    
+        case 4:
+            break;
+        }
+    } 
+    else
+    {
+        cout<<"the book is not found";
+        return;
+    }
 }
 
 // Function to sort the books in the library
@@ -111,10 +151,9 @@ void book_manage::sort() {
     cout << "****************************************\n";
 
     char choice;
+    cout << "Are you sure you want to sort the list? (y/n): ";
     do {
-        cout << "Are you sure you want to sort the list? (y/n): ";
         cin >> choice;
-
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -140,8 +179,8 @@ void book_manage::display() {
     cout << "****************************************\n";
 
     int choice;
+    cout << "Enter the number of the operation (1-2): ";
     do {
-        cout << "Enter the number of the operation (1-2): ";
         cin >> choice;
 
         if (cin.fail()) {
@@ -174,8 +213,8 @@ void book_manage::destroy_list() {
     cout << "****************************************\n";
 
     char choice;
+     cout << "Are you sure you want to free the list? (y/n): ";
     do {
-        cout << "Are you sure you want to free the list? (y/n): ";
         cin >> choice;
 
         if (cin.fail()) {
