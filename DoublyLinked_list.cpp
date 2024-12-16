@@ -355,23 +355,27 @@ void doubly_linkedlist::display_backward()
 /// @brief Search for a book by name and print its details
 node* doubly_linkedlist::search_Book(const string& name)
 {
-    node* temp = head;  // Start from the head
+    node* temp_head = head;  // Start from the head
+    node* temp_tail = tail;  // Start from the tail
 
-    while (temp)
+    while (temp_head != nullptr && temp_tail != nullptr && temp_head != temp_tail->next)  // Proper termination condition
     {
-        if (temp->data.name == name)  // If the book's name matches
+        if (temp_head->data.name == name)  // If book is found at the head side
         {
-            return temp;  // Return pointer to the node
+            return temp_head;  // Return pointer to the node
         }
-        temp = temp->next;  // Move to the next node
+        if (temp_tail->data.name == name)  // If book is found at the tail side
+        {
+            return temp_tail;  // Return pointer to the node
+        }
+
+        temp_head = temp_head->next;  // Move the head pointer forward
+        temp_tail = temp_tail->prev;  // Move the tail pointer backward
     }
 
-    if (!temp)
-       {
-           return nullptr;                       
-       }
-       
-        } ;  
+    return nullptr;  // If the book is not found
+}
+
 
 /// @brief Check if the list is empty
 bool doubly_linkedlist::isEmpty()
@@ -382,18 +386,25 @@ bool doubly_linkedlist::isEmpty()
 /// @brief Check if a book is found in the list by its name
 bool doubly_linkedlist::isFound(const string& name)
 {
-    node* temp = head;  // Start from the head
+    node* temp_head = head;  // Start from the head
+    node* temp_tail = tail;  // Start from the tail
 
-    while (temp)
+    while (temp_head != nullptr && temp_tail != nullptr && temp_head != temp_tail->next)  // Proper termination condition
     {
-        if (temp->data.name == name)  // If the book's name matches
+        if (temp_head->data.name == name)  // If book is found at the head side
         {
-            return true;  // Return true if found
+            return true;  // Return pointer to the node
         }
-        temp = temp->next;  // Move to the next node
+        if (temp_tail->data.name == name)  // If book is found at the tail side
+        {
+            return true;  // Return pointer to the node
+        }
+
+        temp_head = temp_head->next;  // Move the head pointer forward
+        temp_tail = temp_tail->prev;  // Move the tail pointer backward
     }
 
-    return false;  // Return false if not found
+    return false;  // If the book is not found
 }
 
 /// @brief Display the number of books in the list
